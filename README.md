@@ -17,6 +17,17 @@ Man Tab is a Chrome extension designed to help you efficiently manage your brows
   - **Restore Sessions:** Reopen all tabs from a saved session in a new window.
   - **Delete Sessions:** Remove saved sessions you no longer need.
 
+## Screenshots
+<img alt="image" src="https://github.com/user-attachments/assets/bd58ba8d-d1ba-441d-9b02-959671674b31"
+     style="float: left; margin-right: 10px;"
+     width="250" />
+<img alt="image" src="https://github.com/user-attachments/assets/aa06aa4e-a819-4bee-912b-1b409bbdbad1"
+     style="float: left; margin-right: 10px;"
+     width="250" />
+<img alt="image" src="https://github.com/user-attachments/assets/e67383ea-50cb-4acc-a1c6-c01351571e88"
+     style="float: left; margin-right: 10px;"
+     width="250" />
+
 ## How to Use
 
 1. **Open the Extension:** Click the Man Tab icon in your Chrome toolbar to open the side panel.
