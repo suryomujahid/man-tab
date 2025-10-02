@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "VT323";
+    src: url("/src/assets/fonts/VT323-Regular.ttf") format("truetype");
+}
+
 :root {
     --black: #000000;
     --white: #ffffff;
