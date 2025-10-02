@@ -1,0 +1,34 @@
+# Man Tab
+
+Man Tab is a Chrome extension designed to help you efficiently manage your browser tabs. It provides a clear, organized interface to find, filter, and interact with your open tabs, reducing clutter and improving your browsing experience.
+
+## Features
+
+- **Search and Filter:** Instantly search through your open tabs by title or URL. Apply filters to view tabs based on their inactivity period (e.g., inactive for more than a day, a week, or a month).
+- **Sort Tabs:** Organize your tabs by activity, title, or URL to quickly find what you need.
+- **View Modes:** Choose between a simple list view or a grouped view that organizes tabs by domain.
+- **Tab Actions:**
+  - **Pin Tabs:** Keep important tabs accessible by pinning them.
+  - **Go to Tab:** Jump directly to any tab from the extension's interface.
+  - **Close Tabs:** Close single or multiple selected tabs at once.
+  - **Bookmark Tabs:** Save a selection of tabs to a new bookmark folder.
+- **Session Management:**
+  - **Save Sessions:** Save a group of selected tabs as a session to restore them later.
+  - **Restore Sessions:** Reopen all tabs from a saved session in a new window.
+  - **Delete Sessions:** Remove saved sessions you no longer need.
+
+## How to Use
+
+1. **Open the Extension:** Click the Man Tab icon in your Chrome toolbar to open the side panel.
+2. **Manage Your Tabs:**
+   - Use the search bar to find specific tabs.
+   - Apply filters and sorting options to organize the list.
+   - Select the tabs you want to manage using the checkboxes.
+3. **Perform Actions:**
+   - Click **Close Tabs** to close all selected tabs.
+   - Click **Bookmark Tabs** to save the selected tabs to your bookmarks.
+   - To save a session, enter a name in the session input field and click **Save Selected**.
+
+## License
+
+The VT323 font used in this project is licensed under the SIL Open Font License.
