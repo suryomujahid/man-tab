@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Man Tab",
+  "version": "1.0",
+  "description": "Effortlessly (not really tho) find, filter, and manage your tabs.",
+  "permissions": ["tabs", "bookmarks", "storage", "sidePanel"],
+  "background": {
+    "service_worker": "src/background/index.js"
+  },
+  "side_panel": {
+    "default_path": "src/popup/popup.html"
+  },
+  "action": {
+    "default_icon": {
+      "16": "src/assets/images/icon16.png",
+      "48": "src/assets/images/icon48.png",
+      "128": "src/assets/images/icon128.png"
+    },
+    "default_title": "Open Man Tab"
+  },
+  "icons": {
+    "16": "src/assets/images/icon16.png",
+    "48": "src/assets/images/icon48.png",
+    "128": "src/assets/images/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["src/assets/images/*.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

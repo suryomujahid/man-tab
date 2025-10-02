@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Man Tab</title>
+        <link rel="stylesheet" href="popup.css" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <div class="app-container">
+            <header class="header-container">
+                <h1 class="title">Man Tab</h1>
+                <div class="tab-counts">
+                    <span id="tab-count">0</span> TABS /
+                    <span id="selected-count">0</span> SELECTED
+                </div>
+            </header>
+
+            <!-- Search & Filters -->
+            <div class="controls-container">
+                <input
+                    type="text"
+                    id="search-input"
+                    class="search-input"
+                    placeholder="SEARCH..."
+                />
+                <div class="select-all-container">
+                    <input type="checkbox" id="select-all" class="checkbox" />
+                    <label for="select-all">SELECT ALL VISIBLE</label>
+                </div>
+                <div class="filters-container">
+                    <select id="time-filter" class="filter-select">
+                        <option value="0">INACTIVE: ANY</option>
+                        <option value="86400000">INACTIVE > 1 DAY</option>
+                        <option value="604800000">INACTIVE > 1 WEEK</option>
+                        <option value="2592000000">INACTIVE > 1 MONTH</option>
+                    </select>
+                    <select id="view-mode" class="filter-select">
+                        <option value="list">VIEW: AS LIST</option>
+                        <option value="grouped">VIEW: BY DOMAIN</option>
+                    </select>
+                    <select id="sort-by" class="filter-select">
+                        <option value="lastAccessed">SORT: BY ACTIVITY</option>
+                        <option value="title">SORT: BY TITLE</option>
+                        <option value="url">SORT: BY URL</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tab List -->
+            <div class="tab-list-container">
+                <div id="tab-list"></div>
+                <div id="message-area" style="display: none"></div>
+            </div>
+
+            <!-- Session Management -->
+            <div class="session-container">
+                <h2 class="session-title">SESSIONS</h2>
+                <div class="save-session-controls">
+                    <input
+                        type="text"
+                        id="session-name-input"
+                        class="search-input"
+                        placeholder="NEW SESSION NAME..."
+                    />
+                    <button id="save-session-btn" class="action-button">
+                        SAVE SELECTED
+                    </button>
+                </div>
+                <div id="session-list" class="session-list-container">
+                    <!-- Saved sessions will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Footer Actions -->
+            <footer class="footer-container">
+                <button id="close-btn" class="action-button">Close Tabs</button>
+                <button id="bookmark-btn" class="action-button">
+                    Bookmark Tabs
+                </button>
+            </footer>
+
+            <div id="toast"><span id="toast-message"></span></div>
+        </div>
+        <script type="module" src="popup.js"></script>
+    </body>
+</html>
