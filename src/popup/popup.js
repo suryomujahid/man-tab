@@ -400,3 +400,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initialize();
   setupEventListeners();
 });
+
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.tabsChanged) {
+    initialize();
+  }
+});
