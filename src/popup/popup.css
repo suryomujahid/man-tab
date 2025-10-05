@@ -379,6 +379,10 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.session-info {
+    overflow: hidden;
+    flex-grow: 1;
+}
 .session-meta {
     font-size: 12px;
     margin: 0;
@@ -387,6 +391,10 @@ body {
     display: flex;
     gap: 8px;
     flex-shrink: 0;
+    position: relative;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 70px;
 }
 .session-btn {
     font-family: inherit;

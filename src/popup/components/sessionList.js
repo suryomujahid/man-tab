@@ -7,7 +7,7 @@ function createSessionItem(session, index) {
 
   sessionEl.innerHTML = `
         <div class="session-info">
-            <p class="session-name">${session.name}</p>
+            <p class="session-name" title="${session.name}">${session.name}</p>
             <p class="session-meta">${session.tabs.length} TABS / ${new Date(session.date).toLocaleDateString()}</p>
         </div>
         <div class="session-actions">
