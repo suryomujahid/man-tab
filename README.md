@@ -12,6 +12,7 @@ Man Tab is a Chrome extension designed to help you efficiently manage your brows
   - **Go to Tab:** Jump directly to any tab from the extension's interface.
   - **Close Tabs:** Close single or multiple selected tabs at once.
   - **Bookmark Tabs:** Save a selection of tabs to a new bookmark folder.
+  - **Save as MHT:** Save selected tabs as `.mht` files for offline viewing. If multiple tabs are selected, they are bundled into a single `.zip` archive.
 - **Session Management:**
   - **Save Sessions:** Save a group of selected tabs as a session to restore them later.
   - **Restore Sessions:** Reopen all tabs from a saved session in a new window.
@@ -38,6 +39,7 @@ Man Tab is a Chrome extension designed to help you efficiently manage your brows
 3. **Perform Actions:**
    - Click **Close Tabs** to close all selected tabs.
    - Click **Bookmark Tabs** to save the selected tabs to your bookmarks.
+   - Click **Save as MHT** to download the selected tabs for offline use.
    - To save a session, enter a name in the session input field and click **Save Selected**.
 
 ## License
