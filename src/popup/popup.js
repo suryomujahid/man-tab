@@ -213,6 +213,7 @@ function handleSelectAll(event) {
     else selectedTabs.delete(tab.id);
   });
   applyFiltersAndRender();
+  updateCounts(allTabs.length, selectedTabs.size);
 }
 
 async function handleCloseTabs() {
@@ -301,6 +302,8 @@ function setupEventListeners() {
         else selectedTabs.delete(tab.id);
       });
       applyFiltersAndRender();
+      updateCounts(allTabs.length, selectedTabs.size);
+      resetCloseButtonState();
     }
   });
 
