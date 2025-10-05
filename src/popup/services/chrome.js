@@ -79,7 +79,23 @@ export async function bookmarkTabs(tabsToBookmark) {
       parentId: newFolder.id,
       title: tab.title,
       url: tab.url,
-    })
+    }),
   );
   await Promise.all(bookmarkPromises);
+}
+
+/**
+ * Captures a tab as MHTML.
+ * @param {number} tabId - The ID of the tab to capture.
+ * @returns {Promise<Blob>} A promise that resolves to a Blob containing the MHTML data.
+ */
+export function saveAsMht(tabId) {
+  return new Promise((resolve, reject) => {
+    chrome.pageCapture.saveAsMHTML({ tabId }, (mht) => {
+      if (chrome.runtime.lastError) {
+        return reject(chrome.runtime.lastError);
+      }
+      resolve(mht);
+    });
+  });
 }

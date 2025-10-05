@@ -8,6 +8,7 @@ const tabListDiv = document.getElementById("tab-list");
 const selectAllCheckbox = document.getElementById("select-all");
 const closeBtn = document.getElementById("close-btn");
 const bookmarkBtn = document.getElementById("bookmark-btn");
+const mhtBtn = document.getElementById("mht-btn");
 const toast = document.getElementById("toast");
 const toastMessage = document.getElementById("toast-message");
 const searchInput = document.getElementById("search-input");
@@ -95,6 +96,7 @@ function updateCounts(total, selected) {
   closeBtn.disabled = !hasSelection;
   bookmarkBtn.disabled = !hasSelection;
   saveSessionBtn.disabled = !hasSelection;
+  mhtBtn.disabled = !hasSelection;
   if (!hasSelection) {
     resetCloseButtonState();
   }
@@ -250,6 +252,60 @@ async function handleBookmarkTabs() {
   }
 }
 
+async function handleSaveAsMht() {
+  resetCloseButtonState();
+  if (selectedTabs.size === 0) return;
+
+  const tabsToSave = allTabs.filter((tab) => selectedTabs.has(tab.id));
+
+  if (tabsToSave.length === 1) {
+    const tab = tabsToSave[0];
+    try {
+      const mht = await chromeService.saveAsMht(tab.id);
+      const url = URL.createObjectURL(mht);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${tab.title || "page"}.mht`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("SAVED TAB AS MHT.");
+    } catch (error) {
+      showToast(
+        `ERROR: COULD NOT SAVE "${tab.title}". DETAIL: ${error.message}`,
+        true,
+      );
+    }
+  } else {
+    const zip = new JSZip();
+    for (const tab of tabsToSave) {
+      try {
+        const mht = await chromeService.saveAsMht(tab.id);
+        zip.file(`${tab.title || "page"}.mht`, mht);
+      } catch (error) {
+        showToast(
+          `ERROR: COULD NOT SAVE "${tab.title}". DETAIL: ${error.message}`,
+          true,
+        );
+
+        return;
+      }
+    }
+
+    try {
+      const content = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(content);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "tabs.zip";
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("SAVED TABS AS ZIP.");
+    } catch (error) {
+      showToast("ERROR: COULD NOT SAVE ZIP.", true);
+    }
+  }
+}
+
 // --- Event Listeners ---
 function setupEventListeners() {
   searchInput.addEventListener("input", applyFiltersAndRender);
@@ -259,6 +315,7 @@ function setupEventListeners() {
 
   closeBtn.addEventListener("click", handleCloseTabs);
   bookmarkBtn.addEventListener("click", handleBookmarkTabs);
+  mhtBtn.addEventListener("click", handleSaveAsMht);
   saveSessionBtn.addEventListener("click", handleSaveSession);
   selectAllCheckbox.addEventListener("change", handleSelectAll);
 
