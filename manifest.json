@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Man Tab",
-  "version": "1.0",
-  "description": "Effortlessly (not really tho) find, filter, and manage your tabs.",
+  "version": "1.1.0",
+  "description": "Effortlessly (not really tho) manage your browser tabs.",
   "permissions": ["tabs", "bookmarks", "storage", "sidePanel", "pageCapture"],
   "background": {
     "service_worker": "/src/background/index.js"
