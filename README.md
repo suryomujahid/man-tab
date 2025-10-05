@@ -1,3 +1,6 @@
+<a href="https://chromewebstore.google.com/detail/man-tab/kblpjoppmghjjcbdnnffdmciipdcbgfo" title="Available in the Chrome Web Store"><img src="https://github.com/user-attachments/assets/53689556-fdda-4759-a40a-937d3645497c" alt="Available in the Chrome Web Store"></a>
+
+
 # Man Tab
 
 Man Tab is a Chrome extension designed to help you efficiently manage your browser tabs. It provides a clear, organized interface to find, filter, and interact with your open tabs, reducing clutter and improving your browsing experience.
