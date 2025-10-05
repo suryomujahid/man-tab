@@ -13,6 +13,7 @@ const toast = document.getElementById("toast");
 const toastMessage = document.getElementById("toast-message");
 const searchInput = document.getElementById("search-input");
 const timeFilterSelect = document.getElementById("time-filter");
+const windowScopeSelect = document.getElementById("window-scope");
 const tabCountSpan = document.getElementById("tab-count");
 const selectedCountSpan = document.getElementById("selected-count");
 const viewModeSelect = document.getElementById("view-mode");
@@ -312,6 +313,7 @@ function setupEventListeners() {
   timeFilterSelect.addEventListener("change", applyFiltersAndRender);
   viewModeSelect.addEventListener("change", applyFiltersAndRender);
   sortBySelect.addEventListener("change", applyFiltersAndRender);
+  windowScopeSelect.addEventListener("change", initialize);
 
   closeBtn.addEventListener("click", handleCloseTabs);
   bookmarkBtn.addEventListener("click", handleBookmarkTabs);
@@ -375,8 +377,9 @@ function setupEventListeners() {
 // --- Initialization ---
 async function initialize() {
   try {
+    const scope = windowScopeSelect.value;
     const [tabs, sessions] = await Promise.all([
-      chromeService.getAllTabs(),
+      chromeService.getAllTabs(scope),
       chromeService.getSavedSessions(),
     ]);
     allTabs = tabs.map((t) => ({

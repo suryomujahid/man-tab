@@ -1,11 +1,13 @@
 // --- Chrome API Service ---
 
 /**
- * Fetches all tabs from the browser.
+ * Fetches tabs from the browser.
+ * @param {string} scope - 'current' for current window, 'all' for all windows.
  * @returns {Promise<Array>} A promise that resolves to an array of tabs.
  */
-export async function getAllTabs() {
-  return chrome.tabs.query({});
+export async function getAllTabs(scope = "current") {
+  const queryOptions = scope === "current" ? { currentWindow: true } : {};
+  return chrome.tabs.query(queryOptions);
 }
 
 /**
