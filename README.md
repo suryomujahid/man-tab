@@ -20,6 +20,8 @@ Man Tab is a Chrome extension designed to help you efficiently manage your brows
   - **Save Sessions:** Save a group of selected tabs as a session to restore them later.
   - **Restore Sessions:** Reopen all tabs from a saved session in a new window.
   - **Delete Sessions:** Remove saved sessions you no longer need.
+  - **Import Sessions:** Load sessions from a JSON file.
+  - **Export Sessions:** Save all your sessions to a JSON file for backup.
 
 ## Screenshots
 <img alt="image" src="https://github.com/user-attachments/assets/bd58ba8d-d1ba-441d-9b02-959671674b31"

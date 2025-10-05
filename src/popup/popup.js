@@ -1,7 +1,7 @@
 import { renderTabList, renderGroupedTabList } from "./components/tabList.js";
 import { renderSessionList } from "./components/sessionList.js";
 import * as chromeService from "./services/chrome.js";
-import { getDomain } from "./utils/index.js";
+import { getDomain, getCurrentTimestamp } from "./utils/index.js";
 
 // --- DOM Elements ---
 const tabListDiv = document.getElementById("tab-list");
@@ -21,6 +21,8 @@ const sortBySelect = document.getElementById("sort-by");
 const sessionNameInput = document.getElementById("session-name-input");
 const saveSessionBtn = document.getElementById("save-session-btn");
 const sessionListDiv = document.getElementById("session-list");
+const importSessionsBtn = document.getElementById("import-sessions-btn");
+const exportSessionsBtn = document.getElementById("export-sessions-btn");
 
 // --- State ---
 let allTabs = [];
@@ -266,7 +268,7 @@ async function handleSaveAsMht() {
       const url = URL.createObjectURL(mht);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `${tab.title || "page"}.mht`;
+      a.download = `${tab.title || "page"}_${getCurrentTimestamp()}.mht`;
       a.click();
       URL.revokeObjectURL(url);
       showToast("SAVED TAB AS MHT.");
@@ -297,7 +299,7 @@ async function handleSaveAsMht() {
       const url = URL.createObjectURL(content);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "tabs.zip";
+      a.download = `tabs_${getCurrentTimestamp()}.zip`;
       a.click();
       URL.revokeObjectURL(url);
       showToast("SAVED TABS AS ZIP.");
@@ -305,6 +307,68 @@ async function handleSaveAsMht() {
       showToast("ERROR: COULD NOT SAVE ZIP.", true);
     }
   }
+}
+
+async function handleExportSessions() {
+  if (savedSessions.length === 0) {
+    showToast("NO SESSIONS TO EXPORT.", true);
+    return;
+  }
+
+  const dataStr = JSON.stringify(savedSessions, null, 2);
+  const blob = new Blob([dataStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `man-tab-sessions_${getCurrentTimestamp()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast("SESSIONS EXPORTED.");
+}
+
+function handleImportSessions() {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".json";
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const importedSessions = JSON.parse(event.target.result);
+
+        if (
+          !Array.isArray(importedSessions) ||
+          importedSessions.some((s) => !s.name || !s.tabs)
+        ) {
+          throw new Error("Invalid file format.");
+        }
+
+        const existingSessionNames = new Set(savedSessions.map((s) => s.name));
+        const newSessions = importedSessions.filter(
+          (s) => !existingSessionNames.has(s.name),
+        );
+
+        if (newSessions.length === 0) {
+          showToast("NO NEW SESSIONS TO IMPORT.");
+          return;
+        }
+
+        savedSessions.unshift(...newSessions);
+        await chromeService.saveSessions(savedSessions);
+        renderSessionList(sessionListDiv, savedSessions);
+        showToast(`IMPORTED ${newSessions.length} SESSION(S).`);
+      } catch (error) {
+        showToast(`ERROR: ${error.message}`, true);
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
 }
 
 // --- Event Listeners ---
@@ -320,6 +384,8 @@ function setupEventListeners() {
   mhtBtn.addEventListener("click", handleSaveAsMht);
   saveSessionBtn.addEventListener("click", handleSaveSession);
   selectAllCheckbox.addEventListener("change", handleSelectAll);
+  exportSessionsBtn.addEventListener("click", handleExportSessions);
+  importSessionsBtn.addEventListener("click", handleImportSessions);
 
   tabListDiv.addEventListener("click", (event) => {
     const target = event.target;
