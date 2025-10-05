@@ -450,7 +450,7 @@ async function initialize() {
     ]);
     allTabs = tabs.map((t) => ({
       ...t,
-      lastAccessed: t.lastActiveTime || Date.now(),
+      lastAccessed: t.lastAccessed || Date.now(),
     }));
     savedSessions = sessions;
     applyFiltersAndRender();
