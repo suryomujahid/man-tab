@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Man Tab",
+  "version": "1.2.0",
+  "description": "Effortlessly (not really tho) manage your browser tabs.",
+  "permissions": ["tabs", "bookmarks", "storage"],
+  "background": {
+    "scripts": ["src/background/index.js"]
+  },
+  "sidebar_action": {
+    "default_panel": "src/popup/popup.html",
+    "default_icon": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    }
+  },
+  "action": {
+    "default_icon": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    },
+    "default_title": "Open Man Tab"
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["images/*.png", "fonts/VT323-Regular.ttf"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

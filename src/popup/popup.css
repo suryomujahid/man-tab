@@ -1,6 +1,6 @@
 @font-face {
     font-family: "VT323";
-    src: url("/src/assets/fonts/VT323-Regular.ttf") format("truetype");
+    src: url("/fonts/VT323-Regular.ttf") format("truetype");
 }
 
 :root {
@@ -440,7 +440,7 @@ body {
 .footer-container {
     padding: 8px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     flex-shrink: 0;
     margin-top: auto;
@@ -516,4 +516,12 @@ body {
 }
 ::-webkit-scrollbar-thumb {
     background: var(--black);
+}
+
+/* --- Firefox specific --- */
+body.no-mht #mht-btn {
+    display: none;
+}
+body.no-mht .footer-container {
+    grid-template-columns: repeat(2, 1fr);
 }

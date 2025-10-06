@@ -1,6 +1,7 @@
+import JSZip from "jszip";
 import { renderTabList, renderGroupedTabList } from "./components/tabList.js";
 import { renderSessionList } from "./components/sessionList.js";
-import * as chromeService from "./services/chrome.js";
+import * as browserService from "./services/browser.js";
 import { getDomain, getCurrentTimestamp } from "./utils/index.js";
 
 // --- DOM Elements ---
@@ -140,7 +141,7 @@ async function handleSaveSession() {
 
   savedSessions.unshift(newSession);
   try {
-    await chromeService.saveSessions(savedSessions);
+    await browserService.saveSessions(savedSessions);
     showToast(`SAVED SESSION: ${sessionName}`);
     sessionNameInput.value = "";
     renderSessionList(sessionListDiv, savedSessions);
@@ -158,9 +159,10 @@ async function handleRestoreSession(event) {
   if (!session) return;
 
   try {
-    await chromeService.restoreSession(session);
+    await browserService.restoreSession(session);
     showToast(`RESTORED SESSION: ${session.name}`);
   } catch (error) {
+    console.log(error);
     showToast("ERROR: COULD NOT RESTORE.", true);
   }
 }
@@ -175,7 +177,7 @@ async function handleDeleteSession(event) {
   savedSessions.splice(sessionIndex, 1);
 
   try {
-    await chromeService.saveSessions(savedSessions);
+    await browserService.saveSessions(savedSessions);
     showToast(`DELETED SESSION: ${sessionName}`);
     renderSessionList(sessionListDiv, savedSessions);
   } catch (error) {
@@ -198,7 +200,7 @@ async function handlePinTab(event) {
   if (!tab) return;
 
   try {
-    await chromeService.pinTab(tabId, !tab.pinned);
+    await browserService.pinTab(tabId, !tab.pinned);
     tab.pinned = !tab.pinned;
     event.target.classList.toggle("pinned");
     event.target.title = tab.pinned ? "Unpin tab" : "Pin tab";
@@ -232,7 +234,7 @@ async function handleCloseTabs() {
 
   if (selectedTabs.size === 0) return;
   try {
-    await chromeService.closeTabs(selectedTabs);
+    await browserService.closeTabs(selectedTabs);
     showToast(`CLOSED ${selectedTabs.size} TAB(S).`);
     selectedTabs.clear();
     await initialize();
@@ -248,7 +250,7 @@ async function handleBookmarkTabs() {
   if (selectedTabs.size === 0) return;
   try {
     const tabsToBookmark = allTabs.filter((tab) => selectedTabs.has(tab.id));
-    await chromeService.bookmarkTabs(tabsToBookmark);
+    await browserService.bookmarkTabs(tabsToBookmark);
     showToast(`BOOKMARKED ${tabsToBookmark.length} TAB(S).`);
   } catch (error) {
     showToast("ERROR: COULD NOT BOOKMARK.", true);
@@ -264,7 +266,7 @@ async function handleSaveAsMht() {
   if (tabsToSave.length === 1) {
     const tab = tabsToSave[0];
     try {
-      const mht = await chromeService.saveAsMht(tab.id);
+      const mht = await browserService.saveAsMht(tab.id);
       const url = URL.createObjectURL(mht);
       const a = document.createElement("a");
       a.href = url;
@@ -282,7 +284,7 @@ async function handleSaveAsMht() {
     const zip = new JSZip();
     for (const tab of tabsToSave) {
       try {
-        const mht = await chromeService.saveAsMht(tab.id);
+        const mht = await browserService.saveAsMht(tab.id);
         zip.file(`${tab.title || "page"}.mht`, mht);
       } catch (error) {
         showToast(
@@ -359,7 +361,7 @@ function handleImportSessions() {
         }
 
         savedSessions.unshift(...newSessions);
-        await chromeService.saveSessions(savedSessions);
+        await browserService.saveSessions(savedSessions);
         renderSessionList(sessionListDiv, savedSessions);
         showToast(`IMPORTED ${newSessions.length} SESSION(S).`);
       } catch (error) {
@@ -393,7 +395,7 @@ function setupEventListeners() {
     else if (target.classList.contains("go-to-tab-btn")) {
       const tabId = parseInt(target.dataset.tabId, 10);
       const windowId = parseInt(target.dataset.windowId, 10);
-      if (tabId && windowId) chromeService.goToTab(tabId, windowId);
+      if (tabId && windowId) browserService.goToTab(tabId, windowId);
     } else if (
       target.closest(".tab-group-header") &&
       !target.classList.contains("group-checkbox")
@@ -443,10 +445,11 @@ function setupEventListeners() {
 // --- Initialization ---
 async function initialize() {
   try {
+    console.log("Initializing...");
     const scope = windowScopeSelect.value;
     const [tabs, sessions] = await Promise.all([
-      chromeService.getAllTabs(scope),
-      chromeService.getSavedSessions(),
+      browserService.getAllTabs(scope),
+      browserService.getSavedSessions(),
     ]);
     allTabs = tabs.map((t) => ({
       ...t,
@@ -463,11 +466,14 @@ async function initialize() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (!browserService.isMhtSaveAvailable()) {
+    document.body.classList.add("no-mht");
+  }
   initialize();
   setupEventListeners();
 });
 
-chrome.runtime.onMessage.addListener((message) => {
+(self.browser || self.chrome).runtime.onMessage.addListener((message) => {
   if (message.tabsChanged) {
     initialize();
   }

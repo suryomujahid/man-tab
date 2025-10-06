@@ -7,7 +7,7 @@ function createTabItem(tab, selectedTabs) {
   tabEl.className = "tab-item";
   tabEl.dataset.tabId = tab.id;
 
-  const faviconUrl = tab.favIconUrl || "/src/assets/images/icon16.png";
+  const faviconUrl = tab.favIconUrl || "/images/icon16.png";
 
   const favicon = document.createElement("img");
   favicon.src = faviconUrl;
@@ -15,7 +15,7 @@ function createTabItem(tab, selectedTabs) {
   favicon.className = "favicon";
   favicon.addEventListener("error", () => {
     favicon.onerror = null; // Prevent infinite loop if fallback fails
-    favicon.src = "/src/assets/images/icon16.png";
+    favicon.src = "/images/icon16.png";
   });
 
   tabEl.innerHTML = `

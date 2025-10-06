@@ -1,0 +1,28 @@
+{
+  "name": "man-tab",
+  "version": "1.2.0",
+  "type": "module",
+  "description": "Effortlessly (not really tho) manage your browser tabs.",
+  "scripts": {
+    "dev": "vite",
+    "dev:firefox": "vite --mode firefox",
+    "build": "vite build",
+    "build:firefox": "vite build --mode firefox",
+    "build:chrome": "vite build --mode chrome"
+  },
+  "keywords": [
+    "tabs",
+    "manager",
+    "chrome-extension",
+    "firefox-addon"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.3.1",
+    "vite-plugin-web-extension": "^4.0.2"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1"
+  }
+}
