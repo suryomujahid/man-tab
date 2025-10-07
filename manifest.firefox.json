@@ -33,5 +33,10 @@
       "resources": ["images/*.png", "fonts/VT323-Regular.ttf"],
       "matches": ["<all_urls>"]
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "man-tab@example.com"
+    }
+  }
 }
