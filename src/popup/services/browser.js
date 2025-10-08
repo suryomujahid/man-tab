@@ -57,7 +57,16 @@ export async function restoreSession(session) {
   let newWindow = null;
 
   if (validUrls.length > 0) {
-    newWindow = await browser.windows.create({ url: validUrls });
+    newWindow = await browser.windows.create({ url: validUrls[0] });
+    if (validUrls.length > 1) {
+      for (let i = 1; i < validUrls.length; i++) {
+        await browser.tabs.create({
+          windowId: newWindow.id,
+          url: validUrls[i],
+          active: false,
+        });
+      }
+    }
   }
 
   if (invalidUrls.length > 0) {
@@ -85,7 +94,9 @@ export async function restoreSession(session) {
       </body>
       </html>
     `;
-    const dataUrl = `data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`;
+    const dataUrl = `data:text/html;charset=utf-8,${encodeURIComponent(
+      htmlContent,
+    )}`;
 
     if (newWindow) {
       await browser.tabs.create({
