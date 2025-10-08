@@ -8,7 +8,8 @@
     "dev:firefox": "vite --mode firefox",
     "build": "vite build",
     "build:firefox": "vite build --mode firefox",
-    "build:chrome": "vite build --mode chrome"
+    "build:chrome": "vite build --mode chrome",
+    "release": "bumpp"
   },
   "keywords": [
     "tabs",
@@ -19,10 +20,18 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "bumpp": "^10.3.1",
     "vite": "^5.3.1",
     "vite-plugin-web-extension": "^4.0.2"
   },
   "dependencies": {
     "jszip": "^3.10.1"
+  },
+  "bumpp": {
+    "files": [
+      "package.json",
+      "manifest.chrome.json",
+      "manifest.firefox.json"
+    ]
   }
 }
