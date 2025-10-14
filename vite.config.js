@@ -14,6 +14,20 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: `dist/${isFirefox ? "firefox" : "chrome"}`,
       emptyOutDir: true,
+      target: "es2020",
+      rollupOptions: {
+        output: {
+          inlineDynamicImports: false,
+        },
+      },
+    },
+    resolve: {
+      alias: {
+        "@": "/src",
+      },
+    },
+    esbuild: {
+      target: "es2020",
     },
   };
 });

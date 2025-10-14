@@ -5,7 +5,7 @@
   "description": "Effortlessly (not really tho) manage your browser tabs.",
   "permissions": ["tabs", "bookmarks", "storage", "sidePanel", "pageCapture"],
   "background": {
-    "service_worker": "src/background/index.js"
+    "service_worker": "src/background/index.ts"
   },
   "side_panel": {
     "default_path": "src/popup/popup.html"

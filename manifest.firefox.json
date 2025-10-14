@@ -5,7 +5,7 @@
   "description": "Effortlessly (not really tho) manage your browser tabs.",
   "permissions": ["tabs", "bookmarks", "storage"],
   "background": {
-    "scripts": ["src/background/index.js"]
+    "scripts": ["src/background/index.ts"]
   },
   "sidebar_action": {
     "default_panel": "src/popup/popup.html",

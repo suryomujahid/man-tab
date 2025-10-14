@@ -1,26 +1,34 @@
 {
   "name": "man-tab",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "type": "module",
   "description": "Effortlessly (not really tho) manage your browser tabs.",
   "scripts": {
-    "dev": "vite",
-    "dev:firefox": "vite --mode firefox",
-    "build": "vite build",
-    "build:firefox": "vite build --mode firefox",
-    "build:chrome": "vite build --mode chrome",
-    "release": "bumpp"
+    "build": "tsc && vite build",
+    "build:firefox": "tsc && vite build --mode firefox",
+    "build:chrome": "tsc && vite build --mode chrome",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.js --fix"
   },
   "keywords": [
     "tabs",
     "manager",
+    "session",
     "chrome-extension",
-    "firefox-addon"
+    "firefox-addon",
+    "typescript"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "@types/jszip": "^3.4.1",
+    "@types/node": "^20.14.10",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
     "bumpp": "^10.3.1",
+    "eslint": "^8.57.0",
+    "typescript": "^5.5.3",
     "vite": "^5.3.1",
     "vite-plugin-web-extension": "^4.0.2"
   },
