@@ -34,12 +34,5 @@
   },
   "dependencies": {
     "jszip": "^3.10.1"
-  },
-  "bumpp": {
-    "files": [
-      "package.json",
-      "manifest.chrome.json",
-      "manifest.firefox.json"
-    ]
   }
 }
