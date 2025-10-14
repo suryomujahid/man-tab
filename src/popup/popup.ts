@@ -772,7 +772,7 @@ class ManTabApp {
     const sessionInput = this.elements[
       "session-name-input"
     ] as HTMLInputElement;
-    const sessionName = sessionInput?.value?.trim() || "";
+    const sessionName = sessionInput?.value?.trim() || getCurrentTimestamp();
 
     if (this.state.selectedTabs.size === 0) {
       this.showToast({
