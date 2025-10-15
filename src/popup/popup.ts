@@ -114,6 +114,9 @@ class ManTabApp {
       "session-list",
       "import-sessions-btn",
       "export-sessions-btn",
+      "toggle-filters-btn",
+      "collapsible-filters",
+      "resizer",
     ];
 
     elementIds.forEach((id) => {
@@ -133,6 +136,8 @@ class ManTabApp {
    * Set up all event listeners
    */
   private setupEventListeners(): void {
+    this.setupResizer();
+
     // Filter controls
     this.elements["search-input"]?.addEventListener("input", () =>
       this.debouncedRender(),
@@ -162,6 +167,9 @@ class ManTabApp {
     );
     this.elements["save-session-btn"]?.addEventListener("click", () =>
       this.handleSaveSession(),
+    );
+    this.elements["toggle-filters-btn"]?.addEventListener("click", () =>
+      this.toggleFilters(),
     );
     this.elements["select-all"]?.addEventListener("change", (e) =>
       this.handleSelectAll(e as Event),
@@ -201,6 +209,111 @@ class ManTabApp {
         this.handleSaveSession();
       }
     });
+  }
+
+  /**
+   * Setup the resizer element to allow resizing of the tab list and session containers.
+   */
+  private setupResizer(): void {
+    const resizer = this.elements["resizer"];
+    const tabListContainer = this.elements["tab-list"]
+      ?.parentElement as HTMLElement;
+    const sessionContainer = this.elements["session-list"]
+      ?.parentElement as HTMLElement;
+
+    if (!resizer || !tabListContainer || !sessionContainer) {
+      return;
+    }
+
+    sessionContainer.style.flex = "1 1 auto";
+    tabListContainer.style.flexShrink = "0";
+
+    const savedHeight = localStorage.getItem("tabListHeight");
+    if (savedHeight) {
+      tabListContainer.style.height = savedHeight;
+    } else {
+      const appContainer = resizer.parentElement as HTMLElement;
+      if (appContainer) {
+        const header = appContainer.querySelector(
+          ".header-container",
+        ) as HTMLElement;
+        const controls = appContainer.querySelector(
+          ".controls-container",
+        ) as HTMLElement;
+        const footer = appContainer.querySelector(
+          ".footer-container",
+        ) as HTMLElement;
+
+        const fixedElementsHeight =
+          (header?.offsetHeight || 0) +
+          (controls?.offsetHeight || 0) +
+          (footer?.offsetHeight || 0) +
+          resizer.offsetHeight;
+
+        const gapsHeight = 5 * 12;
+        const availableHeight =
+          appContainer.clientHeight - fixedElementsHeight - gapsHeight;
+
+        const initialTabListHeight = Math.max(100, availableHeight * 0.6);
+        tabListContainer.style.height = `${initialTabListHeight}px`;
+      }
+    }
+
+    const mouseDownHandler = (e: MouseEvent) => {
+      e.preventDefault();
+
+      const startY = e.clientY;
+      const startHeight = tabListContainer.offsetHeight;
+      const parentElement = resizer.parentElement as HTMLElement;
+
+      const mouseMoveHandler = (e: MouseEvent) => {
+        const dy = e.clientY - startY;
+        const newHeight = startHeight + dy;
+
+        const minTabListHeight = 100;
+        const minSessionHeight = 120;
+
+        const header = parentElement.querySelector(
+          ".header-container",
+        ) as HTMLElement;
+        const controls = parentElement.querySelector(
+          ".controls-container",
+        ) as HTMLElement;
+        const footer = parentElement.querySelector(
+          ".footer-container",
+        ) as HTMLElement;
+
+        const fixedElementsHeight =
+          (header?.offsetHeight || 0) +
+          (controls?.offsetHeight || 0) +
+          (footer?.offsetHeight || 0) +
+          resizer.offsetHeight;
+
+        const gapsHeight = 5 * 12;
+        ``;
+
+        const maxHeight =
+          parentElement.offsetHeight -
+          fixedElementsHeight -
+          gapsHeight -
+          minSessionHeight;
+
+        if (newHeight > minTabListHeight && newHeight < maxHeight) {
+          tabListContainer.style.height = `${newHeight}px`;
+        }
+      };
+
+      const mouseUpHandler = () => {
+        localStorage.setItem("tabListHeight", tabListContainer.style.height);
+        document.removeEventListener("mousemove", mouseMoveHandler);
+        document.removeEventListener("mouseup", mouseUpHandler);
+      };
+
+      document.addEventListener("mousemove", mouseMoveHandler);
+      document.addEventListener("mouseup", mouseUpHandler);
+    };
+
+    resizer.addEventListener("mousedown", mouseDownHandler);
   }
 
   /**
@@ -298,6 +411,28 @@ class ManTabApp {
       windowScope:
         (windowScopeSelect?.value as WindowScope) || WindowScopeEnum.CURRENT,
     };
+  }
+
+  /**
+   * Toggle filters visibility
+   */
+  private toggleFilters(): void {
+    const filters = this.elements["collapsible-filters"];
+    if (filters) {
+      if (filters.style.display === "none") {
+        filters.style.display = "flex";
+        // Timeout to allow display property to be applied before adding class for transition
+        setTimeout(() => {
+          filters.classList.add("open");
+        }, 10);
+      } else {
+        filters.classList.remove("open");
+        // The timeout allows the animation to complete before setting display to none
+        setTimeout(() => {
+          filters.style.display = "none";
+        }, 300); // This should match the transition duration in your CSS
+      }
+    }
   }
 
   /**

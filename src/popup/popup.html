@@ -23,36 +23,57 @@
 
             <!-- Search & Filters -->
             <div class="controls-container">
-                <input
-                    type="text"
-                    id="search-input"
-                    class="search-input"
-                    placeholder="SEARCH..."
-                />
-                <div class="select-all-container">
-                    <input type="checkbox" id="select-all" class="checkbox" />
-                    <label for="select-all">SELECT ALL VISIBLE</label>
+                <div class="main-controls">
+                    <input
+                        type="text"
+                        id="search-input"
+                        class="search-input"
+                        placeholder="SEARCH..."
+                    />
+                    <button id="toggle-filters-btn" class="session-btn">
+                        FILTERS
+                    </button>
                 </div>
-                <div class="filters-container">
-                    <select id="window-scope" class="filter-select">
-                        <option value="current">SCOPE: CURRENT WINDOW</option>
-                        <option value="all">SCOPE: ALL WINDOWS</option>
-                    </select>
-                    <select id="time-filter" class="filter-select">
-                        <option value="0">INACTIVE: ANY</option>
-                        <option value="86400000">INACTIVE > 1 DAY</option>
-                        <option value="604800000">INACTIVE > 1 WEEK</option>
-                        <option value="2592000000">INACTIVE > 1 MONTH</option>
-                    </select>
-                    <select id="view-mode" class="filter-select">
-                        <option value="list">VIEW: AS LIST</option>
-                        <option value="grouped">VIEW: BY DOMAIN</option>
-                    </select>
-                    <select id="sort-by" class="filter-select">
-                        <option value="lastAccessed">SORT: BY ACTIVITY</option>
-                        <option value="title">SORT: BY TITLE</option>
-                        <option value="url">SORT: BY URL</option>
-                    </select>
+                <div
+                    id="collapsible-filters"
+                    class="collapsible-filters"
+                    style="display: none"
+                >
+                    <div class="select-all-container">
+                        <input
+                            type="checkbox"
+                            id="select-all"
+                            class="checkbox"
+                        />
+                        <label for="select-all">SELECT ALL VISIBLE</label>
+                    </div>
+                    <div class="filters-container">
+                        <select id="window-scope" class="filter-select">
+                            <option value="current">
+                                SCOPE: CURRENT WINDOW
+                            </option>
+                            <option value="all">SCOPE: ALL WINDOWS</option>
+                        </select>
+                        <select id="time-filter" class="filter-select">
+                            <option value="0">INACTIVE: ANY</option>
+                            <option value="86400000">INACTIVE > 1 DAY</option>
+                            <option value="604800000">INACTIVE > 1 WEEK</option>
+                            <option value="2592000000">
+                                INACTIVE > 1 MONTH
+                            </option>
+                        </select>
+                        <select id="view-mode" class="filter-select">
+                            <option value="list">VIEW: AS LIST</option>
+                            <option value="grouped">VIEW: BY DOMAIN</option>
+                        </select>
+                        <select id="sort-by" class="filter-select">
+                            <option value="lastAccessed">
+                                SORT: BY ACTIVITY
+                            </option>
+                            <option value="title">SORT: BY TITLE</option>
+                            <option value="url">SORT: BY URL</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -61,6 +82,8 @@
                 <div id="tab-list"></div>
                 <div id="message-area" style="display: none"></div>
             </div>
+
+            <div id="resizer" class="resizer" title="Drag to resize"></div>
 
             <!-- Session Management -->
             <div class="session-container">
